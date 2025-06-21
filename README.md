@@ -12,7 +12,17 @@ account with username `admin` and password `admin`.
 
 ## Running
 
-Open `index.html` in a browser for a simple landing page or execute the script with Python 3:
+You can either use the command line tool or the lightweight web interface.
+
+To start the web interface run:
+
+```bash
+python3 server.py
+```
+
+Then open `http://localhost:8000` in your browser. Admin users can create or delete accounts from the admin panel.
+
+Alternatively execute the script with Python 3:
 
 ```bash
 python3 main.py

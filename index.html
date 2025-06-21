@@ -7,6 +7,74 @@
 </head>
 <body>
     <h1>Welcome to Mohamed Inc User Manager</h1>
-    <p>Run the Python script on the server to manage accounts.</p>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div id="message"></div>
+    <div id="admin-panel" style="display:none;">
+        <h2>Admin panel</h2>
+        <form id="create-form">
+            <input type="text" id="new-user" placeholder="Username" required>
+            <input type="password" id="new-pass" placeholder="Password" required>
+            <button type="submit">Create account</button>
+        </form>
+        <form id="delete-form">
+            <input type="text" id="del-user" placeholder="User to delete" required>
+            <button type="submit">Delete account</button>
+        </form>
+        <pre id="user-list"></pre>
+    </div>
+<script>
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const res = await fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value
+        })
+    });
+    const data = await res.json();
+    document.getElementById('message').innerText = data.message;
+    if (data.admin) {
+        document.getElementById('admin-panel').style.display = 'block';
+        loadUsers();
+    }
+});
+
+async function loadUsers() {
+    const res = await fetch('/users');
+    if (res.ok) {
+        const users = await res.json();
+        document.getElementById('user-list').innerText = JSON.stringify(users, null, 2);
+    }
+}
+
+document.getElementById('create-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await fetch('/create', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            username: document.getElementById('new-user').value,
+            password: document.getElementById('new-pass').value
+        })
+    });
+    loadUsers();
+});
+
+document.getElementById('delete-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await fetch('/delete', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username: document.getElementById('del-user').value})
+    });
+    loadUsers();
+});
+</script>
 </body>
 </html>
