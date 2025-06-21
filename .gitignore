@@ -1,0 +1,3 @@
+# Ignore generated user database
+users.json
+__pycache__/
