@@ -12,7 +12,7 @@ account with username `admin` and password `admin`.
 
 ## Running
 
-Execute the script with Python 3:
+Open `index.html` in a browser for a simple landing page or execute the script with Python 3:
 
 ```bash
 python3 main.py
