@@ -21,6 +21,7 @@ python3 server.py
 ```
 
 Then open `http://localhost:8000` in your browser. Admin users can create or delete accounts from the admin panel.
+Regular users can sign up using the registration form on the front page.
 
 Alternatively execute the script with Python 3:
 

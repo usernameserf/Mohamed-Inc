@@ -45,6 +45,15 @@ class Handler(BaseHTTPRequestHandler):
                 self._send_json({'message': 'Login successful.', 'admin': user.get('is_admin', False)})
             else:
                 self._send_json({'message': 'Invalid credentials.', 'admin': False}, status=401)
+        elif self.path == '/register':
+            username = data.get('username')
+            password = data.get('password')
+            users = load_users()
+            if username in users:
+                self._send_json({'message': 'User already exists.'}, status=400)
+            else:
+                create_account(username, password)
+                self._send_json({'message': 'Account created.'})
         elif self.path == '/create':
             if current_user != 'admin':
                 self.send_response(403)
