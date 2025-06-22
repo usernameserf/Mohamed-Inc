@@ -2,6 +2,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 from main import load_users, save_users, hash_password, create_account, ensure_admin
 
+ADMIN_PASSWORD = "258963"
+
 current_user = None
 
 class Handler(BaseHTTPRequestHandler):
@@ -35,25 +37,13 @@ class Handler(BaseHTTPRequestHandler):
         body = self.rfile.read(length).decode()
         data = json.loads(body or '{}')
 
-        if self.path == '/login':
-            username = data.get('username')
+        if self.path == '/auth':
             password = data.get('password')
-            users = load_users()
-            user = users.get(username)
-            if user and user['password'] == hash_password(password):
-                current_user = username
-                self._send_json({'message': 'Login successful.', 'admin': user.get('is_admin', False)})
+            if password == ADMIN_PASSWORD:
+                current_user = 'admin'
+                self._send_json({'message': 'Access granted.'})
             else:
-                self._send_json({'message': 'Invalid credentials.', 'admin': False}, status=401)
-        elif self.path == '/register':
-            username = data.get('username')
-            password = data.get('password')
-            users = load_users()
-            if username in users:
-                self._send_json({'message': 'User already exists.'}, status=400)
-            else:
-                create_account(username, password)
-                self._send_json({'message': 'Account created.'})
+                self._send_json({'message': 'Invalid password.'}, status=401)
         elif self.path == '/create':
             if current_user != 'admin':
                 self.send_response(403)
