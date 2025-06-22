@@ -4,11 +4,12 @@ This project provides a very small command line tool to manage user accounts.
 
 Features:
 - Create a new user account.
-- Login as a regular user.
-- Login as an admin user and manage all accounts.
+- Access the admin panel using a single password.
 
 The first time you run the application it creates a default admin
-account with username `admin` and password `admin`.
+account with username `admin` and password `admin` for command line
+use. The web interface no longer has a login page and instead requires
+the password `258963` to access the dashboard.
 
 ## Running
 
@@ -20,8 +21,9 @@ To start the web interface run:
 python3 server.py
 ```
 
-Then open `http://localhost:8000` in your browser. Admin users can create or delete accounts from the admin panel.
-Regular users can sign up using the registration form on the front page.
+Then open `http://localhost:8000` in your browser. Enter the password
+`258963` to access the admin panel where you can create or delete
+accounts.
 
 Alternatively execute the script with Python 3:
 
