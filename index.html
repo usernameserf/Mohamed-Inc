@@ -32,6 +32,19 @@
         </form>
         <pre id="user-list"></pre>
     </div>
+
+    <div id="dashboard" style="display:none;">
+        <h2>Dashboard</h2>
+        <nav>
+            <ul>
+                <li><a href="#stocks">Stocks</a></li>
+                <li><a href="#crypto">Crypto</a></li>
+                <li><a href="#assets">Assets</a></li>
+                <li><a href="#reserves">Reserves</a></li>
+                <li><a href="#cash">Cash</a></li>
+            </ul>
+        </nav>
+    </div>
 <script>
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -45,9 +58,14 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     });
     const data = await res.json();
     document.getElementById('message').innerText = data.message;
-    if (data.admin) {
-        document.getElementById('admin-panel').style.display = 'block';
-        loadUsers();
+    if (res.ok) {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        if (data.admin) {
+            document.getElementById('admin-panel').style.display = 'block';
+            loadUsers();
+        }
     }
 });
 
