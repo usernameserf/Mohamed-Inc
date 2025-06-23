@@ -1,6 +1,6 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
-from main import load_users, save_users, hash_password, create_account, ensure_admin
+from main import load_users, save_users, create_account, ensure_admin
 
 ADMIN_PASSWORD = "258963"
 
